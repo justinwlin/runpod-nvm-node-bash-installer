@@ -1,75 +1,48 @@
 #!/bin/bash
 
-# Install NVM + Latest Node.js Version for Docker
-# This script installs nvm and the latest stable Node.js version
+# Complete NVM + Node.js + NPM Installation Fix
+set -e
 
-set -e  # Exit on any error
+echo "🔧 Fixing NVM + Node.js + NPM installation..."
 
-echo "🚀 Installing NVM and latest Node.js version..."
+# Install curl if not available
+apt-get update && apt-get install -y curl
 
-# Update system packages
-echo "📦 Updating system packages..."
-apt-get update
+# Remove any existing nvm installation
+rm -rf ~/.nvm
 
-# Install required dependencies
-echo "🔧 Installing dependencies..."
-apt-get install -y curl wget build-essential
+# Fresh install of NVM
+echo "⬇️ Fresh NVM installation..."
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 
-# Download and install NVM
-echo "⬇️  Downloading NVM..."
-NVM_VERSION="v0.39.5"  # Latest stable version as of Jan 2025
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
-
-# Load NVM into current shell
-echo "🔄 Loading NVM..."
+# Load NVM immediately
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Verify NVM installation
-echo "✅ Verifying NVM installation..."
-command -v nvm >/dev/null 2>&1 || { echo "❌ NVM installation failed"; exit 1; }
-echo "NVM version: $(nvm --version)"
+# Verify NVM is loaded
+echo "✅ NVM version: $(nvm --version)"
 
-# Install latest stable Node.js
-echo "⬇️  Installing latest stable Node.js..."
-nvm install node  # 'node' is an alias for the latest version
+# Install latest Node.js (which includes npm)
+echo "⬇️ Installing latest Node.js with npm..."
+nvm install node
 nvm use node
 nvm alias default node
 
-# Verify Node.js and npm installation
-echo "✅ Verifying Node.js installation..."
-echo "Node.js version: $(node --version)"
-echo "npm version: $(npm --version)"
+# Verify installations
+echo "✅ Node.js version: $(node --version)"
+echo "✅ NPM version: $(npm --version)"
 
-# Update npm to latest version
-echo "🔄 Updating npm to latest version..."
+# Update npm to latest
 npm install -g npm@latest
+echo "✅ Updated NPM version: $(npm --version)"
 
-# Add NVM to shell profile for persistence
-echo "📝 Adding NVM to shell profile..."
-cat >> ~/.bashrc << 'EOL'
+# Add to bashrc for persistence
+echo "" >> ~/.bashrc
+echo "# NVM Configuration" >> ~/.bashrc
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
 
-# NVM configuration
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-EOL
-
-# Clean up
-echo "🧹 Cleaning up..."
-apt-get autoremove -y
-apt-get clean
-rm -rf /var/lib/apt/lists/*
-
-echo "🎉 Installation complete!"
-echo "Node.js $(node --version) is now installed and ready to use."
-echo ""
-echo "To use in new shell sessions, run:"
-echo "source ~/.bashrc"
-echo ""
-echo "Available nvm commands:"
-echo "  nvm list                 # List installed versions"
-echo "  nvm install <version>    # Install specific version"
-echo "  nvm use <version>        # Switch to version"
-echo "  nvm current              # Show current version"
+echo "🎉 Installation complete! Run 'source ~/.bashrc' in new terminals."
+echo "Current session is ready to use node and npm."
