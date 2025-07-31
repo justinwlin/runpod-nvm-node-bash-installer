@@ -3,10 +3,11 @@
 set -e
 echo "🔧 Installing development tools and dependencies..."
 
-# Install essential packages including curl and rsync
+# Install essential packages including curl, rsync, and tmux
 echo "📦 Installing system packages..."
-apt-get update && apt-get install -y curl rsync
+apt-get update && apt-get install -y curl rsync tmux
 echo "✅ rsync installed: $(rsync --version | head -1)"
+echo "✅ tmux installed: $(tmux -V)"
 
 # Remove any existing nvm installation
 rm -rf ~/.nvm
@@ -45,7 +46,7 @@ echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
 echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
 
 echo "🎉 Installation complete! Run 'source ~/.bashrc' in new terminals."
-echo "Current session is ready to use node, npm, rsync, and claude."
+echo "Current session is ready to use node, npm, rsync, tmux, and claude."
 
 # Install Claude Code
 echo "⬇️ Installing Claude Code..."
@@ -58,6 +59,7 @@ echo "Available commands:"
 echo "- node: Node.js JavaScript runtime"
 echo "- npm: Node.js package manager"
 echo "- rsync: File synchronization tool"
+echo "- tmux: Terminal multiplexer"
 echo "- claude: AI-powered coding assistant"
 echo ""
 echo "📝 To start using Claude Code:"
