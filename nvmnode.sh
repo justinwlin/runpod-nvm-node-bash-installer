@@ -1,12 +1,12 @@
 #!/bin/bash
-
-# Complete NVM + Node.js + NPM Installation Fix
+# Complete NVM + Node.js + NPM + rsync + Claude Code Installation
 set -e
+echo "🔧 Installing development tools and dependencies..."
 
-echo "🔧 Fixing NVM + Node.js + NPM installation..."
-
-# Install curl if not available
-apt-get update && apt-get install -y curl
+# Install essential packages including curl and rsync
+echo "📦 Installing system packages..."
+apt-get update && apt-get install -y curl rsync
+echo "✅ rsync installed: $(rsync --version | head -1)"
 
 # Remove any existing nvm installation
 rm -rf ~/.nvm
@@ -45,4 +45,22 @@ echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
 echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
 
 echo "🎉 Installation complete! Run 'source ~/.bashrc' in new terminals."
-echo "Current session is ready to use node and npm."
+echo "Current session is ready to use node, npm, rsync, and claude."
+
+# Install Claude Code
+echo "⬇️ Installing Claude Code..."
+npm install -g @anthropic-ai/claude-code
+echo "✅ Claude Code installed successfully!"
+
+echo ""
+echo "🎉 All tools installed successfully!"
+echo "Available commands:"
+echo "- node: Node.js JavaScript runtime"
+echo "- npm: Node.js package manager"
+echo "- rsync: File synchronization tool"
+echo "- claude: AI-powered coding assistant"
+echo ""
+echo "📝 To start using Claude Code:"
+echo "1. Navigate to your project directory: cd your-project"
+echo "2. Run: claude"
+echo "3. Follow the OAuth setup on first run"
