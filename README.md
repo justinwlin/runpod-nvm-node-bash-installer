@@ -5,7 +5,9 @@ install nvm / latest node in runpod
 wget -qO- https://raw.githubusercontent.com/justinwlin/runpod-nvm-node-bash-installer/refs/heads/main/nvmnode.sh | bash && source ~/.bashrc
 ```
 
-## Potential Issue: nvm not found in non-interactive shells
+## Troubleshooting: nvm not found in non-interactive shells
+
+> **Note:** This is automatically handled by the install script. This section is only relevant if you installed an older version or set up nvm manually.
 
 ### Problem
 
