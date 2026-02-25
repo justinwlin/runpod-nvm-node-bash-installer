@@ -74,6 +74,15 @@ echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
 echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
 echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
 
+# Also add to bash_profile for non-interactive shell compatibility
+# (.bashrc guards against non-interactive shells, so nvm won't load
+#  when using e.g. su - user -c "command")
+echo "" >> ~/.bash_profile
+echo "# NVM Configuration (non-interactive shell support)" >> ~/.bash_profile
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bash_profile
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bash_profile
+
 echo ""
 echo "🎉 All tools installed successfully!"
 echo "Available commands:"
